@@ -1,5 +1,6 @@
 # Crystalshire (C# Server)
 Crystalshire foi criado por @RobinPerris.
+Projeto Original: [Crystalshire](https://github.com/RobinPerris/Crystalshire)
 
 Esta é uma versão mais curta, foi editada para ser um mmo que não seja praticamente um rpg.
 Portanto, não há combate, lojas, magias, recursos e o banco. 
