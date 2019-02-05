@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A3B58B30-5A5D-41F6-A713-D7A35402A149}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>LoginServer</RootNamespace>
+    <AssemblyName>Login Server</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>connect.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Elysium, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Server Functions\bin\Debug\Elysium.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=8.0.11.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="NLua, Version=1.4.4.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\NLua.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\KeyGenerator.cs" />
+    <Compile Include="Communication\Checksum.cs" />
+    <Compile Include="Communication\Configuration.cs" />
+    <Compile Include="Communication\Constants.cs" />
+    <Compile Include="Common\Hash.cs" />
+    <Compile Include="Communication\Global.cs" />
+    <Compile Include="Database\Interface\DBCommandType.cs" />
+    <Compile Include="Database\Interface\DBError.cs" />
+    <Compile Include="Database\MySql\DBConnection.cs" />
+    <Compile Include="Database\MySql\DBCommand.cs" />
+    <Compile Include="Database\MySql\DBDataReader.cs" />
+    <Compile Include="Database\MySql\DBFactory.cs" />
+    <Compile Include="Network\ByteBuffer.cs" />
+    <Compile Include="Network\Connection.cs" />
+    <Compile Include="Network\Interface\IConnection.cs" />
+    <Compile Include="Network\Interface\IRecvPacket.cs" />
+    <Compile Include="Network\PacketList\Game\SpPing.cs" />
+    <Compile Include="Network\PacketList\Game\SpSendUserData.cs" />
+    <Compile Include="Network\PacketList\Login\SpAlertMessage.cs" />
+    <Compile Include="Network\PacketList\Login\SpLoginToken.cs" />
+    <Compile Include="Network\TcpTransfer.cs" />
+    <Compile Include="Server\AccountBan.cs" />
+    <Compile Include="Server\AccountData.cs" />
+    <Compile Include="Database\AccountDB.cs" />
+    <Compile Include="Database\Interface\DBTemplate.cs" />
+    <Compile Include="Database\Interface\IDBCommand.cs" />
+    <Compile Include="Database\Interface\IDBConnection.cs" />
+    <Compile Include="Database\Interface\IDBDataReader.cs" />
+    <Compile Include="Database\Interface\IDBFactory.cs" />
+    <Compile Include="Database\SqlServer\DBCommand.cs" />
+    <Compile Include="Database\SqlServer\DBConnection.cs" />
+    <Compile Include="Database\SqlServer\DBDataReader.cs" />
+    <Compile Include="Database\SqlServer\DBFactory.cs" />
+    <Compile Include="Server\AlertMessageType.cs" />
+    <Compile Include="Communication\ClientVersion.cs" />
+    <Compile Include="Server\Expired.cs" />
+    <Compile Include="Communication\LogType.cs" />
+    <Compile Include="FrmBlockList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmBlockList.Designer.cs">
+      <DependentUpon>FrmBlockList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmConnections.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmConnections.Designer.cs">
+      <DependentUpon>FrmConnections.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMain.Designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Network\IpBlockList.cs" />
+    <Compile Include="Network\Abstract\SendPacket.cs" />
+    <Compile Include="Network\PacketList\ClientPacket.cs" />
+    <Compile Include="Network\GeoIpCountry\GeoIpBlock.cs" />
+    <Compile Include="Network\GeoIpCountry\IpCountry.cs" />
+    <Compile Include="Network\IpAddress.cs" />
+    <Compile Include="Network\IpFiltering.cs" />
+    <Compile Include="Network\PacketList\Client\CpAccountLogin.cs" />
+    <Compile Include="Network\TcpServer.cs" />
+    <Compile Include="Network\OpCode.cs" />
+    <Compile Include="Network\PacketList\ServerPacket.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Script\LuaScript.cs" />
+    <Compile Include="Server\Authentication.cs" />
+    <Compile Include="Server\AuthenticationResult.cs" />
+    <Compile Include="Server\Login.cs" />
+    <Compile Include="Server\MenuResetType.cs" />
+    <EmbeddedResource Include="FrmBlockList.resx">
+      <DependentUpon>FrmBlockList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmConnections.resx">
+      <DependentUpon>FrmConnections.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="connect.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

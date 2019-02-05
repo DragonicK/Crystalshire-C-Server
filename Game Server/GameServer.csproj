@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1FA6D2C9-5FCB-4174-A51A-5C10D631CAD0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>GameServer</RootNamespace>
+    <AssemblyName>GameServer</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>GameServer.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>server.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Elysium, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Server Functions\bin\Debug\Elysium.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=8.0.11.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="NLua, Version=1.4.4.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\NLua.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Communication\Configuration.cs" />
+    <Compile Include="Communication\Constants.cs" />
+    <Compile Include="Communication\Global.cs" />
+    <Compile Include="Database\AccountDB.cs" />
+    <Compile Include="Database\CharacterDB.cs" />
+    <Compile Include="Database\Interface\DBCommandType.cs" />
+    <Compile Include="Database\Interface\DBError.cs" />
+    <Compile Include="Database\Interface\DBTemplate.cs" />
+    <Compile Include="Database\Interface\IDBCommand.cs" />
+    <Compile Include="Database\Interface\IDBConnection.cs" />
+    <Compile Include="Database\Interface\IDBDataReader.cs" />
+    <Compile Include="Database\Interface\IDBFactory.cs" />
+    <Compile Include="Database\MySql\DBCommand.cs" />
+    <Compile Include="Database\MySql\DBConnection.cs" />
+    <Compile Include="Database\MySql\DBDataReader.cs" />
+    <Compile Include="Database\MySql\DBFactory.cs" />
+    <Compile Include="Database\SqlServer\DBCommand.cs" />
+    <Compile Include="Database\SqlServer\DBConnection.cs" />
+    <Compile Include="Database\SqlServer\DBDataReader.cs" />
+    <Compile Include="Database\SqlServer\DBFactory.cs" />
+    <Compile Include="Data\Animation\Animation.cs" />
+    <Compile Include="Data\Animation\AnimationDatabase.cs" />
+    <Compile Include="Data\Class.cs" />
+    <Compile Include="Data\Conversation\Conversation.cs" />
+    <Compile Include="Data\Conversation\Chat.cs" />
+    <Compile Include="Data\Conversation\ConversationDatabase.cs" />
+    <Compile Include="Data\Database.cs" />
+    <Compile Include="Data\DataManagement.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpChatOption.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpRequestConversation.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpRequestEditConversation.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpSaveConversation.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpAnimation.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpCancelAnimation.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpChatUpdate.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpConversationEditor.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpSound.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpUpdateConversation.cs" />
+    <Compile Include="Server\Authentication\WaitingUserAuthentication.cs" />
+    <Compile Include="Server\Character\CharacterCreation.cs" />
+    <Compile Include="Server\Character\CharacterDeletion.cs" />
+    <Compile Include="Server\Character\CharacterStart.cs" />
+    <Compile Include="Server\Character\CharacterValidationResultMessage.cs" />
+    <Compile Include="Server\Character\CharacterValidation.cs" />
+    <Compile Include="Server\Character\CharacterValidationResult.cs" />
+    <Compile Include="Server\Enumeration\GenderType.cs" />
+    <Compile Include="Server\JoinGame.cs" />
+    <Compile Include="Server\KickPlayer.cs" />
+    <Compile Include="Server\PlayerMovement.cs" />
+    <Compile Include="Server\NpcConversation.cs" />
+    <Compile Include="Server\Inventory.cs" />
+    <Compile Include="Data\Item\Item.cs" />
+    <Compile Include="Data\ItemType.cs" />
+    <Compile Include="Data\RarityType.cs" />
+    <Compile Include="Data\VitalType.cs" />
+    <Compile Include="Data\Item\ItemDatabase.cs" />
+    <Compile Include="Data\Map\Event.cs" />
+    <Compile Include="Data\Map\EventCommand.cs" />
+    <Compile Include="Data\Map\EventPage.cs" />
+    <Compile Include="Data\Map\LayerType.cs" />
+    <Compile Include="Data\Map\Map.cs" />
+    <Compile Include="Data\Map\MapDatabase.cs" />
+    <Compile Include="Data\Map\Square.cs" />
+    <Compile Include="Data\Map\Tile.cs" />
+    <Compile Include="Data\Map\TileType.cs" />
+    <Compile Include="Data\Npc\Npc.cs" />
+    <Compile Include="Data\Npc\NpcBehaviour.cs" />
+    <Compile Include="Data\Npc\NpcDatabase.cs" />
+    <Compile Include="FrmPlayers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPlayers.Designer.cs">
+      <DependentUpon>FrmPlayers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMain.Designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Network\ByteBuffer.cs" />
+    <Compile Include="Network\PacketList\ClientPacket.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpAdminWarp.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpBroadcastMessage.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpCreateCharacter.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpDeleteCharacter.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpEmoteMessage.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpKickPlayer.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpMapRespawn.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpPlayerDirection.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpPlayerMessage.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpQuitGame.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpRequestAnimation.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpRequestEditAnimation.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpRequestEditItem.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpRequestItems.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpRequestNewMap.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpRequestNpcs.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpSaveAnimation.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpSaveItem.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpSaveMapData.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpPlayerMove.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpRequestEditMap.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpSaveNpcData.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpSayMessage.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpTarget.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpUseCharacter.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpRequestEditNpc.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpUseItem.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpWarpMeTo.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpWarpTo.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpWarpToMe.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpSwapInventory.cs" />
+    <Compile Include="Network\PacketList\LoginPacket\CpUserData.cs" />
+    <Compile Include="Network\Connection.cs" />
+    <Compile Include="Network\Interface\IConnection.cs" />
+    <Compile Include="Network\Interface\IRecvPacket.cs" />
+    <Compile Include="Network\IpAddress.cs" />
+    <Compile Include="Network\IpBlockList.cs" />
+    <Compile Include="Network\IpFiltering.cs" />
+    <Compile Include="Network\OpCode.cs" />
+    <Compile Include="Network\Abstract\SendPacket.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpPing.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpActionMessage.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpAlertMessage.cs" />
+    <Compile Include="Network\PacketList\ClientPacket\CpAuthenticateLogin.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpAnimationEditor.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpBroadcastMessage.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpChatBubble.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpClasses.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpCharacterSelection.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpHighIndex.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpInGame.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpInventory.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpItemEditor.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpLoadMap.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpLoginOk.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpMapEditor.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpMapMessage.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpMapNpcData.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpMapNpcDirection.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpMapNpcMove.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpNpcEditor.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpPing.cs" />
+    <Compile Include="Network\PacketList\ServerPacket.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpPlayerData.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpPlayerDirection.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpPlayerHP.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpPlayerLeft.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpPlayerMessage.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpPlayerMove.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpPlayerMP.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpPlayerXY.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpSayMessage.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpTarget.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpUpdateAnimation.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpUpdateInventory.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpUpdateItem.cs" />
+    <Compile Include="Network\PacketList\ServerPacket\SpUpdateNpcs.cs" />
+    <Compile Include="Network\TcpLogin.cs" />
+    <Compile Include="Network\TcpServer.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Script\LuaScript.cs" />
+    <Compile Include="Server\Enumeration\AccessLevel.cs" />
+    <Compile Include="Server\Enumeration\ActionMessageType.cs" />
+    <Compile Include="Server\AlertMessage\AlertMessageType.cs" />
+    <Compile Include="Server\Authentication\Authentication.cs" />
+    <Compile Include="Server\Enumeration\Direction.cs" />
+    <Compile Include="Server\Enumeration\GameState.cs" />
+    <Compile Include="Server\Map\MapInstance.cs" />
+    <Compile Include="Server\Map\MapNpc.cs" />
+    <Compile Include="Server\Message.cs" />
+    <Compile Include="Server\Enumeration\MovementType.cs" />
+    <Compile Include="Server\PlayerTarget.cs" />
+    <Compile Include="Server\ProhibitedNames.cs" />
+    <Compile Include="Server\Enumeration\Expired.cs" />
+    <Compile Include="Server\Character\CharacterDelete.cs" />
+    <Compile Include="Server\Character\CharacterDeleteRequest.cs" />
+    <Compile Include="Server\Character\CharacterDeleteStatus.cs" />
+    <Compile Include="Server\Character\CharacterLevelRange.cs" />
+    <Compile Include="Server\Character\CharacterDatabase.cs" />
+    <Compile Include="Server\Character\CharacterSelection.cs" />
+    <Compile Include="Server\GameServer.cs" />
+    <Compile Include="Server\AlertMessage\MenuResetType.cs" />
+    <Compile Include="Server\Player.cs" />
+    <Compile Include="Communication\LogType.cs" />
+    <Compile Include="Server\Enumeration\QBColor.cs" />
+    <Compile Include="Server\Enumeration\SoundEntityType.cs" />
+    <Compile Include="Server\Enumeration\TargetType.cs" />
+    <Compile Include="Server\Enumeration\TextColor.cs" />
+    <Compile Include="Server\WaitingUserData.cs" />
+    <Compile Include="Server\AdministratorWarp.cs" />
+    <EmbeddedResource Include="FrmPlayers.resx">
+      <DependentUpon>FrmPlayers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="server.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

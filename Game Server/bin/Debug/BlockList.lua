@@ -1,0 +1,3 @@
+-- 1st param, ipAddress
+-- 2nd param, permanent
+-- AddIpAddress("127.0.0.1", true);
