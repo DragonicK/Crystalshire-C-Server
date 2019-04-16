@@ -4,7 +4,7 @@ using GameServer.Communication;
 namespace GameServer.Network.PacketList {
     public sealed class SpUpdateAnimation : SendPacket {
         public void Build(Animation animation) {
-            msg.Clear();
+            msg.Flush();
             msg.Write((int)OpCode.SendPacket[GetType()]);
             msg.Write(animation.Id);
             msg.Write(animation.Name);

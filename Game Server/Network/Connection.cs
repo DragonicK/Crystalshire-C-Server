@@ -48,7 +48,7 @@ namespace GameServer.Network {
             Connected = false;
             Client.Close();
             ChangeState();
-            msg.Clear();
+            msg.Flush();
 
             OnDisconnect?.Invoke(Index);
         }
@@ -66,21 +66,6 @@ namespace GameServer.Network {
                     try {
                         // Recebe os primeiros dados.
                         Client.Client.Receive(buffer, size, SocketFlags.None);
-
-                        // Escreve o buffer.
-                        msg.Write(buffer);
-                        var pSize = msg.ReadInt32(false);
-
-                        // Enquanto a mensagem nao chegar por completo, lê os dados e adiciona no buffer.
-                        while (msg.Count() - 4 < pSize) {
-                            if (Client.Available > 0) {
-                                buffer = new byte[Client.Available];
-
-                                Client.Client.Receive(buffer, Client.Available, SocketFlags.None);
-
-                                msg.Write(buffer);
-                            }
-                        }
                     }
                     catch (SocketException ex) {
                         Global.WriteLog(LogType.Connection, $"Receive Data Error: Class {GetType().Name}", LogColor.Red);
@@ -96,6 +81,7 @@ namespace GameServer.Network {
                 }
 
                 int pLength = 0;
+                msg.Write(buffer);
 
                 if (msg.Length() >= 4) {
                     pLength = msg.ReadInt32(false);
@@ -132,7 +118,7 @@ namespace GameServer.Network {
                         }
                         else {
                             Global.WriteLog(LogType.System, $"Header: {header} was not found", LogColor.Red);
-                            msg.Clear();
+                            msg.Flush();
                             Disconnect();
                         }
                     }
@@ -147,8 +133,7 @@ namespace GameServer.Network {
                         }
                     }
 
-                    // Limpa o buffer por segurança.
-                    msg.Clear();
+                    msg.Trim();
                 }
             }
         }

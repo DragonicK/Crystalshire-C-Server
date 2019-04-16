@@ -38,7 +38,13 @@ namespace LoginServer.Network {
             return buffer.Count;
         }
 
-        public void Clear() {
+        public void Trim() {
+            if (readpos >= buffer.Count) {
+                Flush();
+            }
+        }
+
+        public void Flush() {
             buffer.Clear();
             readpos = 0;
         }

@@ -17,7 +17,7 @@ namespace GameServer.Network.PacketList {
             var conversationId = msg.ReadInt32();
 
             if (conversationId <= 0 || conversationId > Configuration.MaxConversations) {
-                msg.Clear();
+                msg.Flush();
                 return;
             }
 

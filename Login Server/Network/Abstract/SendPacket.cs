@@ -7,7 +7,7 @@
         }
 
         ~SendPacket() {
-            msg.Clear();
+            msg.Flush();
             msg = null;
         }
 

@@ -16,7 +16,7 @@ namespace GameServer.Network.PacketList {
             var itemId = msg.ReadInt32();
 
             if (itemId <= 0 || itemId > Configuration.MaxItems) {
-                msg.Clear();
+                msg.Flush();
                 return;
             }
 

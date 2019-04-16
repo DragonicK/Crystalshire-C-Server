@@ -70,21 +70,6 @@ namespace LoginServer.Network {
                 if (Client.Client.Poll(Constants.ReceiveTimeOut, SelectMode.SelectRead)) {
                     try {
                         Client.Client.Receive(buffer, size, SocketFlags.None);
-
-                        msg.Write(buffer);
-                        // Obtem o tamanho do pacote.
-                        var pSize = msg.ReadInt32(false);
-
-                        // Enquanto a mensagem nao chegar por completo, lê os dados e adiciona no buffer.
-                        while (msg.Count() - 4 < pSize) {
-                            if (Client.Available > 0) {
-                                buffer = new byte[Client.Available];
-
-                                Client.Client.Receive(buffer, Client.Available, SocketFlags.None);
-
-                                msg.Write(buffer);
-                            }
-                        }
                     }
                     catch (SocketException ex) {
                         Global.WriteLog(LogType.Connection, $"Receive Data Error: Class {GetType().Name}", LogColor.Red);
@@ -99,6 +84,7 @@ namespace LoginServer.Network {
                 }
 
                 int pLength = 0;
+                msg.Write(buffer);
 
                 if (msg.Length() >= 4) {
                     pLength = msg.ReadInt32(false);
@@ -137,8 +123,7 @@ namespace LoginServer.Network {
                     }
                 }
 
-                // Limpa o buffer por segurança.
-                msg.Clear();
+                msg.Trim();
             }
         }
 

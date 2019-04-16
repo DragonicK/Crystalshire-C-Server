@@ -5,7 +5,7 @@ namespace GameServer.Network.PacketList {
     public sealed class SpUpdateInventory : SendPacket {
 
         public void Build(int inventoryIndex, Dictionary<int,Inventory> inventories) {
-            msg.Clear();
+            msg.Flush();
             msg.Write((int)OpCode.SendPacket[GetType()]);
             msg.Write(inventoryIndex);
             msg.Write(inventories[inventoryIndex].Id);
@@ -13,7 +13,7 @@ namespace GameServer.Network.PacketList {
         }
 
         public void Build(int inventoryIndex, Inventory inventory) {
-            msg.Clear();
+            msg.Flush();
             msg.Write((int)OpCode.SendPacket[GetType()]);
             msg.Write(inventoryIndex);
             msg.Write(inventory.Id);

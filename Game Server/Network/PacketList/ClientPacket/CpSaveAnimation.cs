@@ -16,7 +16,7 @@ namespace GameServer.Network.PacketList {
             var animationId = msg.ReadInt32();
 
             if (animationId <= 0 || animationId > Configuration.MaxAnimations) {
-                msg.Clear();
+                msg.Flush();
                 return;
             }
 

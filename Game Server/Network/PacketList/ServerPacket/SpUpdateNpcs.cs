@@ -3,7 +3,7 @@
 namespace GameServer.Network.PacketList {
     public sealed class SpUpdateNpc : SendPacket{
         public void Build(Npc npc) {
-            msg.Clear();
+            msg.Flush();
             msg.Write((int)OpCode.SendPacket[GetType()]);
             msg.Write(npc.Id);
             msg.Write(npc.Name);

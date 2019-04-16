@@ -16,7 +16,7 @@ namespace GameServer.Network.PacketList {
             var npcId = msg.ReadInt32();
 
             if (npcId <= 0 || npcId > Configuration.MaxNpcs) {
-                msg.Clear();
+                msg.Flush();
                 return;
             }
 

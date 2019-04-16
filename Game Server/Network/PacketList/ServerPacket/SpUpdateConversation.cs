@@ -4,7 +4,7 @@ using GameServer.Communication;
 namespace GameServer.Network.PacketList {
     public sealed class SpUpdateConversation : SendPacket {
         public void Build(Conversation conversation) {
-            msg.Clear();
+            msg.Flush();
             msg.Write((int)OpCode.SendPacket[GetType()]);
             msg.Write(conversation.Id);
             msg.Write(conversation.Name);
