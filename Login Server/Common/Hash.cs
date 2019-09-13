@@ -17,6 +17,8 @@ namespace LoginServer.Common {
                 hash.Append(bytes.ToString("x2"));
             }
 
+            sha.Dispose();
+
             return hash.ToString();
         }
     }

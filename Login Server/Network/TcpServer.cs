@@ -12,7 +12,6 @@ namespace LoginServer.Network {
         public IpFiltering IpFiltering { get; set; }
         public int Port { get; set; }
 
-        private int highIndex;
         private bool accept;
         private TcpListener server;
 
@@ -23,7 +22,12 @@ namespace LoginServer.Network {
         }
 
         public void InitServer() {
-            Connections = new Dictionary<int, Connection>();
+            Connections = new Dictionary<int, Connection>(Configuration.MaxConnections);
+
+            for (var i = 1; i <= Configuration.MaxConnections; i++) {
+                Connections.Add(i, null);
+            }
+
             server = new TcpListener(IPAddress.Any, Port);
             server.Start();
 
@@ -51,7 +55,7 @@ namespace LoginServer.Network {
                     }
                     
                     if (CanApproveIpAddress(ipAddress)) {
-                        Add(client, ipAddress);
+                        Add(client);
                     }
                     else {
                         Global.WriteLog(LogType.Connection, $"Refused connection {ipAddress}", LogColor.Coral);
@@ -67,61 +71,30 @@ namespace LoginServer.Network {
             server.Stop();
 
             Connections.Clear();
-            Connections = null;
-        }
-
-        public void Remove(int index) {
-            // Verifica a key para não ocorrer erros.
-            if (Connections.ContainsKey(index)) {
-                // Realiza a desconexao quando nao esta nulo.
-                if (Connections[index].Connected) {
-                    Connections[index]?.Disconnect();
-                }
-
-                Connections.Remove(index);
-            }
         }
 
         public void Clear() {
             Connections.Clear();
         }
 
-        public void ReceiveData() {
-            for(var n = 1; n <= highIndex; n++) {
-                if (Connections.ContainsKey(n)) {
-                    Connections[n].ReceiveData();
+        public void ProcessClients() {
+            for (var i = 1; i <= Configuration.MaxConnections; i++) {
+                if (Connections[i] != null) {
+                    Connections[i].ReceiveData();
+                    RemoveInvalidConnections(i);
                 }
             }
         }
 
-        public void RemoveInvalidConnections() {
-            var remove = false;
-            // Uma conexão JAMAIS pode permanecer ativa no servidor.
-            // Quando a conexão é aceita, os dados são processados.
-            // E em seguida, a conexão é fechada por não ter mais utilidade.
+        private void RemoveInvalidConnections(int index) {
+            Connections[index].CountConnectionTime();
 
-            for (int n = 1; n <= highIndex; n++) {
-                remove = false;
+            if (Connections[index].ConnectedTime >= Constants.ConnectionTimeOut) {
+                Connections[index].Disconnect();
+            }
 
-                if (Connections.ContainsKey(n)) {
-
-                    // Realiza a contagem de tempo.
-                    Connections[n].CountConnectionTime();
-
-                    // Quando o limite estipulado é ultrapasasdo, remove a conexão.
-                    if (Connections[n].ConnectedTime >= Constants.ConnectionTimeOut) {
-                        Connections[n].Disconnect();
-                        remove = true;
-                    }
-
-                    if (!Connections[n].Connected) {
-                        remove = true;
-                    }
-
-                    if (remove) {
-                        Remove(n);
-                    }
-                }
+            if (!Connections[index].Connected) {
+                Connections[index] = null;
             }
         }
 
@@ -168,25 +141,18 @@ namespace LoginServer.Network {
             return values.All(r => byte.TryParse(r, out byte parsing));
         }
 
-        private void Add(TcpClient client, string ipAddress) {
-            var index = 0;
+        private void Add(TcpClient client) {
             var uniqueKey = new KeyGenerator().GetUniqueKey();
 
-            if (Connections.Count < highIndex) {
-                // Procura por um slot que não está sendo usado.
-                for (var i = 1; i <= highIndex; i++) {
-                    if (!Connections.ContainsKey(i)) {
-                        index = i;
-                        break;
-                    }
+            for (var i = 1; i <= Configuration.MaxConnections; i++) {
+                if (Connections[i] == null) {
+                    Connections[i] = new Connection(i, client, uniqueKey);
+                    return;
                 }
             }
-            // Caso contrário, adiciona um novo slot.
-            else {
-                index = ++highIndex;
-            }
 
-            Connections.Add(index, new Connection(index, client, uniqueKey));
+            // Fecha a conexão quando um slot não foi encontrado.
+            client.Close();
         }
     }
 }

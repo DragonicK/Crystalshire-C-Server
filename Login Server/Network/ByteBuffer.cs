@@ -22,10 +22,6 @@ namespace LoginServer.Network {
             buffer.AddRange(arr);
         }
 
-        private int ReadPosition() {
-            return readpos;
-        }
-
         public byte[] ToArray() {
             return buffer.ToArray();
         }

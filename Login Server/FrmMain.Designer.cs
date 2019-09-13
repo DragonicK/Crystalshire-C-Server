@@ -258,6 +258,7 @@
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Crystalshire -Authentication @ 0";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.TabConfig.ResumeLayout(false);
             this.general_TabPage.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

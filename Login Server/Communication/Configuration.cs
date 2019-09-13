@@ -7,6 +7,8 @@ namespace LoginServer.Communication {
     public static class Configuration {
         public static ClientVersion Version { get; set; }
 
+        public static int MaxConnections { get; set; }
+
         /// <summary>
         /// Porta de conexão do servidor.
         /// </summary>
@@ -71,6 +73,7 @@ namespace LoginServer.Communication {
 
         public static void GetGeneralConfig() {
             Port = settings.GetInt32("Port");
+            MaxConnections = settings.GetInt32("MaximumConnections");
             Sleep = settings.GetInt32("Sleep");
  
             UseEmailAsLogin = settings.GetBoolean("UseEmailAsLogin");
@@ -127,14 +130,14 @@ namespace LoginServer.Communication {
         }
 
         public static void ShowConfigInLog() {
-            string result = string.Empty;
             const string Enabled = "Enabled";
             const string Disabled = "Disabled";
 
             Global.WriteLog(LogType.System, $"Port: {Port}", LogColor.Black);
+            Global.WriteLog(LogType.System, $"Maximum Connections: {MaxConnections}", LogColor.Black);
             Global.WriteLog(LogType.System, $"Sleep: {Sleep}", LogColor.Black);
 
-            result = (UseEmailAsLogin) ? Enabled : Disabled;
+            var result = (UseEmailAsLogin) ? Enabled : Disabled;
             Global.WriteLog(LogType.System, $"UseEmailAsLogin: {result}", LogColor.BlueViolet);
 
             result = (GeoIpBlock.Enabled) ? Enabled : Disabled;

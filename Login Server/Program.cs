@@ -15,7 +15,6 @@ namespace LoginServer {
             frmMain.Show();
             frmMain.InitializeServer();
 
-            Application.Idle += frmMain.OnApplicationIdle;
             Application.Run(frmMain);
         }
     }

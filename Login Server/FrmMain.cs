@@ -11,69 +11,32 @@ using LoginServer.Script;
 
 namespace LoginServer {
     public partial class FrmMain : Form {
-
-        #region Peek Message
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport("User32.dll", CharSet = CharSet.Auto)]
-        private static extern bool PeekMessage(out Message msg, IntPtr hWnd, uint messageFilterMin, uint messageFilterMax, uint flags);
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct Message {
-            public IntPtr hWnd;
-            public IntPtr msg;
-            public IntPtr wParam;
-            public IntPtr lParam;
-            public uint time;
-            public Point p;
-        }
-
-        public void OnApplicationIdle(object sender, EventArgs e) {
-            while (this.AppStillIdle) {
-
-                if (loginServer.Initialized) {
-                    // Processa
-                    if (loginServer.ServerRunning) {
-                        loginServer.ServerLoop();
-
-                        if (Configuration.Sleep > 0) {
-                            Thread.Sleep(Configuration.Sleep);
-                        }
-                    }
-                    else {
-                        loginServer.StopServer();
-
-                        Application.Exit();
-                    }
-                }
-            }
-        }
-
-        private bool AppStillIdle {
-            get {
-                return !PeekMessage(out Message msg, IntPtr.Zero, 0, 0, 0);
-            }
-        }
-
-        #endregion
-
+        Thread t;
         Login loginServer;
         int ThreadSleepBackup;
+        bool ServerRunning;
 
         FrmBlockList frmBlockList;
         FrmConnections frmConnections;
-  
+
+        private delegate void DelegateSetText(int ups);
+        private delegate void DelegateWriteLog(object sender, LogEventArgs e);
+
         public FrmMain() {
             InitializeComponent();
         }
 
         public void InitializeServer() {
+            ServerRunning = true;
+
             Global.OpenLog(WriteLog);
 
             loginServer = new Login();
             loginServer.UpdateUps += UpdateUps;
             loginServer.InitServer();
 
-            loginServer.ServerRunning = true;
+            t = new Thread(ServerLoop);
+            t.Start();
         }
 
         /// <summary>
@@ -96,15 +59,27 @@ namespace LoginServer {
                     break;
             }
 
-            textBox.SelectionStart = textBox.TextLength;
-            textBox.SelectionLength = 0;
-            textBox.SelectionColor = e.Color;
-            textBox.AppendText($"{DateTime.Now}: {e.Text}{Environment.NewLine}");
-            textBox.ScrollToCaret();
+            if (textBox.InvokeRequired) {
+                var d = new DelegateWriteLog(WriteLog);
+                textBox.Invoke(d, sender, e);
+            }
+            else {
+                textBox.SelectionStart = textBox.TextLength;
+                textBox.SelectionLength = 0;
+                textBox.SelectionColor = e.Color;
+                textBox.AppendText($"{DateTime.Now}: {e.Text}{Environment.NewLine}");
+                textBox.ScrollToCaret();
+            }
         }
 
         private void UpdateUps(int ups) {
-            Text = $"Crystalshire - Authentication @ {ups} Ups";
+            if (InvokeRequired) {
+                var d = new DelegateSetText(UpdateUps);
+                Invoke(d, ups);
+            }
+            else {
+                Text = $"Crystalshire - Authentication @ {ups} Ups";
+            }
         }
 
         private void MenuDisableLogin_Click(object sender, EventArgs e) {
@@ -115,7 +90,7 @@ namespace LoginServer {
         }
 
         private void MenuExit_Click(object sender, EventArgs e) {
-            loginServer.ServerRunning = false;
+            ServerRunning = false;
         }
 
         private void MenuConnections_Click(object sender, EventArgs e) {
@@ -163,6 +138,24 @@ namespace LoginServer {
                 Configuration.Sleep = ThreadSleepBackup;
                 ThreadSleepBackup = 0;
             }
+        }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e) {
+            ServerRunning = false;
+        }
+
+        private void ServerLoop() {
+            while (ServerRunning) {
+
+                loginServer.ServerLoop();
+
+                if (Configuration.Sleep > 0) {
+                    Thread.Sleep(Configuration.Sleep);
+                }
+            }
+
+            loginServer.StopServer();
+            Application.Exit();
         }
     }
 }

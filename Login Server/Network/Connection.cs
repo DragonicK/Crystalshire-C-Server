@@ -31,12 +31,6 @@ namespace LoginServer.Network {
         private int timeTick;
         private const int OneSecond = 1000;
 
-        ~Connection() {
-            Client.Close();
-            Client = null;
-            msg = null;
-        }
-
         public Connection(int index, TcpClient tcpClient, string uniqueKey) {
             timeTick = Environment.TickCount;
             msg = new ByteBuffer();
@@ -137,8 +131,6 @@ namespace LoginServer.Network {
 
             Array.Copy(values, 0, buffer, 0, 4);
             Array.Copy(msg.ToArray(), 0, buffer, 4, msg.Length());
-
-
 
             if (Client.Client.Poll(Constants.SendTimeOut, SelectMode.SelectWrite)) {
                 try {

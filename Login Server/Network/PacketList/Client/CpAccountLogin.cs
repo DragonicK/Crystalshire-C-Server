@@ -34,7 +34,7 @@ namespace LoginServer.Network.PacketList.Client {
                 return;
             }
 
-            var account = Authentication.Authenticate( GetVersion(ref msg) , username, password, out var result);
+            var account = new Authentication().Authenticate( GetVersion(ref msg) , username, password, out var result);
 
             if (result != AuthenticationResult.Success) {
                 SendMessage(result);
@@ -89,19 +89,16 @@ namespace LoginServer.Network.PacketList.Client {
             }
 
             msg.Send(_Connection);
-            msg = null;
         }
 
         private void SendLoginToken() {
             var msg = new SpLoginToken( ((Connection)_Connection).UniqueKey );
             msg.Send(_Connection);
-            msg = null;
         }
 
         private void SendConnectionError() {
             var msg = new SpAlertMessage(AlertMessageType.Connection, MenuResetType.Login);
             msg.Send(_Connection);
-            msg = null;
 
             _Connection.Disconnect();
         }
@@ -116,7 +113,6 @@ namespace LoginServer.Network.PacketList.Client {
             };
 
             msg.Send();
-            msg = null;
         }
     }
 }

@@ -4,7 +4,7 @@ using LoginServer.Communication;
 using LoginServer.Database;
 
 namespace LoginServer.Server {
-    public static class Authentication {
+    public sealed class Authentication {
         /// <summary>
         ///  Verifica os dados do usuário.
         /// </summary>
@@ -13,7 +13,7 @@ namespace LoginServer.Server {
         /// <param name="passphrase"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static AccountData Authenticate(ClientVersion version, string username, string passphrase, out AuthenticationResult result) {
+        public AccountData Authenticate(ClientVersion version, string username, string passphrase, out AuthenticationResult result) {
             if (Configuration.Maintenance) {
                 result = AuthenticationResult.Maintenance;
                 return null;

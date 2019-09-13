@@ -8,13 +8,7 @@ using LoginServer.Script;
 namespace LoginServer.Server {
     public sealed class Login : Global {
         public Action<int> UpdateUps { get; set; }
-        public bool ServerRunning { get; set; }
         
-        /// <summary>
-        /// Indica que o loop pode ser processado.
-        /// </summary>
-        public bool Initialized { get; set; }
-
         public Dictionary<int, Connection> Connections {
             get {
                 return Server.Connections;
@@ -89,7 +83,6 @@ namespace LoginServer.Server {
 
             WriteLog(LogType.System, "Login Server started", LogColor.Green);
 
-            Initialized = true;
         }
 
         public void StopServer() {
@@ -112,8 +105,7 @@ namespace LoginServer.Server {
             TcpTransfer.SendPing();
 
             Server.AcceptClient();
-            Server.ReceiveData();
-            Server.RemoveInvalidConnections();
+            Server.ProcessClients();
 
             IpBlockList.RemoveExpiredIpAddress();
             IpFiltering.RemoveExpiredIpAddress();
